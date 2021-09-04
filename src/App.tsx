@@ -1,5 +1,6 @@
 import * as React from 'react'
 import debounce from 'just-debounce-it'
+import { getAxisPositions } from './utils'
 
 interface State {
   isPressed: boolean
@@ -52,14 +53,6 @@ function stateReducer(state: State, action: Action): State {
   }
 }
 
-function getAxisPositions(event: React.MouseEvent<HTMLCanvasElement>, canvas: HTMLCanvasElement) {
-  const xPosition = event.clientX - canvas.offsetLeft
-
-  const yPosition = event.clientY - canvas.offsetTop
-
-  return { xPosition, yPosition }
-}
-
 function App() {
   const [state, dispatch] = React.useReducer(stateReducer, initialState)
 
@@ -93,6 +86,7 @@ function App() {
     return () => {
       window.removeEventListener('resize', debounce(onResize, 100))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   React.useEffect(() => {
@@ -137,7 +131,7 @@ function App() {
 
     const ctx = canvasContext as CanvasRenderingContext2D
 
-    const { xPosition, yPosition } = getAxisPositions(event, canvas)
+    const { xPosition, yPosition } = getAxisPositions<HTMLCanvasElement>(event, canvas)
 
     setAxis({ axis: { x: xPosition, y: yPosition } })
 
