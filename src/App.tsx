@@ -2,6 +2,7 @@ import * as React from 'react'
 import debounce from 'just-debounce-it'
 import { getAxisPositions } from './utils'
 import { Colors } from './utils/constants'
+import clsx from 'clsx'
 
 interface State {
   isPressed: boolean
@@ -166,13 +167,15 @@ function App() {
         <div className="space-x-2">
           {Object.keys(Colors).map((colorName: string) => (
             <button
-              className="p-2 rounded-full border"
+              // eslint-disable-next-line tailwindcss/no-custom-classname
+              className={clsx(
+                'p-5 rounded-full border',
+                state.currentColor === Colors[colorName] && 'ring ring-green-500',
+              )}
               key={colorName}
               style={{ backgroundColor: Colors[colorName] }}
               onClick={() => onChangeColor(Colors[colorName])}
-            >
-              {colorName}
-            </button>
+            ></button>
           ))}
         </div>
       </div>
