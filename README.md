@@ -25,19 +25,19 @@ This project uses many tools like:
 Create the project.
 
 ```bash
-npx degit yonycalsin/coloryze my-app
+git clone https://github.com/yonycalsin/coloryze
 ```
 
 Access the project directory.
 
 ```bash
-cd my-app
+cd coloryze
 ```
 
 Install dependencies.
 
 ```bash
-npm install
+npm ci
 ```
 
 Serve with hot reload at http://localhost:3000.
