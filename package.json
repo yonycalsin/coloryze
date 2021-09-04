@@ -14,6 +14,7 @@
     "check:format": "npm run prettier -- --list-different"
   },
   "dependencies": {
+    "clsx": "^1.1.1",
     "just-debounce-it": "^1.5.0",
     "just-random": "^2.1.1",
     "react": "^17.0.2",
