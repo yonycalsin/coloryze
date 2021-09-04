@@ -172,7 +172,7 @@ function App() {
       </div>
 
       <canvas
-        className="rounded-lg border active:border-purple-600 cursor-pointer"
+        className="rounded-lg border cursor-pointer"
         ref={canvasRef}
         onMouseMove={onMouseMove}
         onMouseDown={onMouseDown}
