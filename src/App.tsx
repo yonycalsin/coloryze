@@ -70,8 +70,10 @@ function App() {
   React.useEffect(() => {
     const canvas = canvasRef.current as HTMLCanvasElement
 
+    const ctx = canvasContext as CanvasRenderingContext2D
+
     const onResize = (event: UIEvent) => {
-      if (!canvas) {
+      if (!canvas || !ctx) {
         return
       }
 
@@ -79,9 +81,13 @@ function App() {
 
       const { innerHeight, innerWidth } = target
 
-      canvas.width = innerWidth
+      const temp = ctx.getImageData(0, 0, canvas.width, canvas.height)
 
-      canvas.height = innerHeight
+      ctx.canvas.width = innerWidth
+
+      ctx.canvas.height = innerHeight
+
+      ctx.putImageData(temp, 0, 0)
     }
 
     window.addEventListener('resize', debounce(onResize, 100))
@@ -94,7 +100,7 @@ function App() {
       window.removeEventListener('resize', debounce(onResize, 100))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [canvasContext])
 
   React.useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
