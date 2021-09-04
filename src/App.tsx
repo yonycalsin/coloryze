@@ -1,15 +1,72 @@
-import React from 'react'
+import * as React from 'react'
+
+interface State {
+  isPressed: boolean
+  currentColor: string
+  penWidth: number
+}
+
+const initialState: State = {
+  isPressed: false,
+  currentColor: '#ff0000',
+  penWidth: 5,
+}
+
+enum ActionType {
+  'press',
+  'depress',
+}
+
+interface Action {
+  type: ActionType
+}
+
+function stateReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case ActionType.press: {
+      return { ...state, isPressed: true }
+    }
+
+    case ActionType.depress: {
+      return { ...state, isPressed: false }
+    }
+
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
+}
 
 function App() {
+  const [state, dispatch] = React.useReducer(stateReducer, initialState)
+
+  const canvasRef = React.createRef<HTMLCanvasElement>()
+
+  const onPress = React.useCallback(() => dispatch({ type: ActionType.press }), [dispatch])
+
+  const onDepress = React.useCallback(() => dispatch({ type: ActionType.depress }), [dispatch])
+
+  const onMouseDown = React.useCallback(() => {
+    console.log('onMouseDown')
+  }, [])
+
+  const onMouseMove = React.useCallback(() => {
+    console.log('onMouseMove')
+  }, [])
+
+  const onMouseUp = React.useCallback(() => {
+    console.log('onMouseUp')
+  }, [])
+
   return (
-    <div className="bg-white">
-      <div className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 mx-auto max-w-screen-xl">
-        <div className="text-center">
-          <h2 className="text-base font-semibold tracking-wide text-blue-600 uppercase">Welcome to</h2>
-          <p className="my-3 text-4xl sm:text-5xl lg:text-6xl font-bold sm:tracking-tight text-gray-900">Coloryze</p>
-          <p className="text-xl text-gray-400">Start building for free.</p>
-        </div>
-      </div>
+    <div className="flex justify-center items-center h-screen">
+      <canvas
+        className="w-full max-w-5xl rounded-lg border active:border-purple-600 cursor-pointer"
+        ref={canvasRef}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+      ></canvas>
     </div>
   )
 }
