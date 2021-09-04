@@ -1,4 +1,5 @@
 import * as React from 'react'
+import debounce from 'just-debounce-it'
 
 interface State {
   isPressed: boolean
@@ -67,6 +68,34 @@ function App() {
   const [canvasContext, setCanvasContext] = React.useState<CanvasRenderingContext2D | null>()
 
   React.useEffect(() => {
+    const canvas = canvasRef.current as HTMLCanvasElement
+
+    const onResize = (event: UIEvent) => {
+      if (!canvas) {
+        return
+      }
+
+      const target = event.target as Window
+
+      const { innerHeight, innerWidth } = target
+
+      canvas.width = innerWidth
+
+      canvas.height = innerHeight
+    }
+
+    window.addEventListener('resize', debounce(onResize, 100))
+
+    if (canvas) {
+      onResize({ target: window } as unknown as UIEvent)
+    }
+
+    return () => {
+      window.removeEventListener('resize', debounce(onResize, 100))
+    }
+  }, [])
+
+  React.useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
 
     if (!ctx) {
@@ -123,9 +152,9 @@ function App() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex overflow-hidden justify-center items-center h-screen">
       <canvas
-        className="bg-green-600 rounded-lg border active:border-purple-600 cursor-pointer"
+        className="rounded-lg border active:border-purple-600 cursor-pointer"
         ref={canvasRef}
         onMouseMove={onMouseMove}
         onMouseDown={onMouseDown}
