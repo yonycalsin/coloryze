@@ -2,6 +2,9 @@
 
 color board
 
+![image](https://user-images.githubusercontent.com/58490737/132108036-a503b90e-ad2d-4722-bba8-b4c1ac2cbff8.png)
+
+
 ## What is inside?
 
 This project uses many tools like:
