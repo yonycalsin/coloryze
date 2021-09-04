@@ -180,6 +180,15 @@ function App() {
         width="980"
         height="580"
       ></canvas>
+
+      <div className="absolute bottom-4 font-bold">
+        <p>
+          Created with ❤ by {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="https://yonycalsin.com" target="_blank" className="hover:underline">
+            Yony Calsin
+          </a>
+        </p>
+      </div>
     </div>
   )
 }
