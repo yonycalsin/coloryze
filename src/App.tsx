@@ -181,7 +181,12 @@ function App() {
       </div>
 
       <canvas
-        className="rounded-lg border cursor-pointer"
+        className="rounded-lg border"
+        style={{
+          cursor: 'url("/images/icons/pen.svg") 4 27, auto',
+          backgroundImage: 'url("/images/background-dot.png")',
+          backgroundSize: 16,
+        }}
         ref={canvasRef}
         onMouseMove={onMouseMove}
         onMouseDown={onMouseDown}
