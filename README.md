@@ -1,6 +1,6 @@
 # Coloryze
 
-color board
+🚀 An online whiteboard for teams to ideate and brainstorm together. 🎉
 
 ![image](https://user-images.githubusercontent.com/58490737/132108036-a503b90e-ad2d-4722-bba8-b4c1ac2cbff8.png)
 
