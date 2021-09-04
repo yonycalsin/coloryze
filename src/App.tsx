@@ -1,6 +1,7 @@
 import * as React from 'react'
 import debounce from 'just-debounce-it'
 import { getAxisPositions } from './utils'
+import { Colors } from './utils/constants'
 
 interface State {
   isPressed: boolean
@@ -14,7 +15,7 @@ interface State {
 
 const initialState: State = {
   isPressed: false,
-  currentColor: '#ff0000',
+  currentColor: Colors.ORANGE,
   penWidth: 5,
   axis: {
     x: undefined,
@@ -26,11 +27,13 @@ enum ActionType {
   'press',
   'depress',
   'set-axis',
+  'change-color',
 }
 
 interface Action {
   type: ActionType
   axis?: State['axis']
+  color?: string
 }
 
 function stateReducer(state: State, action: Action): State {
@@ -45,6 +48,10 @@ function stateReducer(state: State, action: Action): State {
 
     case ActionType['set-axis']: {
       return { ...state, axis: action.axis as State['axis'] }
+    }
+
+    case ActionType['change-color']: {
+      return { ...state, currentColor: action.color as string }
     }
 
     default: {
@@ -106,6 +113,8 @@ function App() {
 
   const onDepress = React.useCallback(() => dispatch({ type: ActionType.depress }), [dispatch])
 
+  const onChangeColor = React.useCallback(color => dispatch({ type: ActionType['change-color'], color }), [dispatch])
+
   const setAxis = React.useCallback(({ axis }) => dispatch({ type: ActionType['set-axis'], axis }), [dispatch])
 
   const onMouseDown = () => {
@@ -146,7 +155,22 @@ function App() {
   }
 
   return (
-    <div className="flex overflow-hidden justify-center items-center h-screen">
+    <div className="flex overflow-hidden relative justify-center items-center h-screen">
+      <div className=" absolute top-5">
+        <div className="space-x-2">
+          {Object.keys(Colors).map((colorName: string) => (
+            <button
+              className="p-2 rounded-full border"
+              key={colorName}
+              style={{ backgroundColor: Colors[colorName] }}
+              onClick={() => onChangeColor(Colors[colorName])}
+            >
+              {colorName}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <canvas
         className="rounded-lg border active:border-purple-600 cursor-pointer"
         ref={canvasRef}
